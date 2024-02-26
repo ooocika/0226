@@ -1,0 +1,1492 @@
+if(something is List<*>){
+  something.forEach(println(it
+                           )
+}}
+//
+fun handleStrings(list: MutableList<String>){
+  if(list is ArrayList)
+}{
+  
+}
+//
+inlint fun <reified A, reified B> Pair<*, *>.asPairOf(): Pair<A, B>?{
+  if(first !is A || second !is B) return null
+  return first as A to second as B
+}
+
+val somePair: Pair<Any?, Any?> = "items" to listOf(1,2,3)
+
+val stringToSomething = somePair.asPairOf<String, Any>()
+val stringToInt = somePair.asPairOf<String, Int>()
+val stringToList = somePair.asPairOf<String, List<*>>()
+val stringToStringList = somePair.asPairOf<String, List<String>>()
+
+fun main(){
+  println("stringToSomething = " + stringToSomething)
+   println("stringToInt = " + stringToInt)
+   println("stringToList = " + stringToList)
+    println("stringToStringList = " + stringToStringList)
+
+
+}
+
+//
+fun readDictionary(file: File): Map<String, *> = file.inputStream().use{
+  TODO("Read a mapping of strings to aribitrary elements.")
+}
+val intsFile = File("ints.dictionary")
+
+val intsDictionary: Map<String, Int> = readDictionary(intsFile) as Map<String, Int>
+
+      //
+      inline fun <reified T> List<*>.asListOfType(): List<T>? =
+      if(all{it is T})
+      @Suppress("UNCHECKED_CAST")
+      this as List<T> else
+      null
+
+                    //
+   abstract class SomeClass<T>{
+     abstract fun execute(): T
+     
+   } 
+         class SomeImplementation : SomeClass<String>(){
+          override fun execute(): String = " Test"
+                     } 
+         class OtherImplementation : SomeClass<Int>(){
+           override fun execute(): Int = 42
+           
+                      } 
+ object Runner{
+   inline fun <reified S: SomeClass<T>, Trun(): T{
+     return S::class.java.getDeclaredConstructor().newInstance().execute()
+   }
+ }
+
+ fun main(){
+   val s = Runner.run<SomeImplementation, ->()
+   assert(s == "Test")
+
+   val n = Runner.run<OtherImplementation, ->()>
+   assert(n == 42)
+ }
+ //
+ class Outer{
+   private val bar: Int = 1
+   class Nested{
+     fun foo() =2
+   }
+ }
+ val demo = Outer.Nested().foo()
+
+ //
+ interface OuterInterface{
+   class InnerClass
+   interface InnerInterface
+ }
+ class OuterClass{
+   class InnerClass
+   interface InnerInterface
+ }
+ //
+ class Outer{
+   private val bar: Int = 1
+   inner class Inner{
+     fun foo() = bar
+   }
+ }
+
+ val demo = Outer().Inner().foo()
+ //
+ window.addMouseListener(object: MouseAdapter(){
+
+   override fun mouseClicked(e: MouseEvent){}
+   override fun mouseEntered(e: MouseEvent){}
+   
+ })
+ //
+ val listener = ActionListener{println("clicked")}
+ //
+ enum class Direction{
+   NORTH, SOUTH, WEST, EAST
+ }
+ //
+ enum class Color(val rgb, Int){
+   RED(0xFF0000),
+   GREEN(0x00FF00),
+    BLUE(0x0000FF)
+ }
+ //
+ enum class ProtocolState{
+   WAITING{
+     override fun signal() = TALKING
+   },
+   TALKING{
+     override fun signal() = WAITING
+   };
+   abstract fun signal(): ProtocolState
+ }
+ //
+ enum class IntArithmetics : BinaryOperator<Int>, IntBinaryOperator{
+   PLUS{
+     override fun apply (t: Int, u: Int): Int = t + u
+   },
+   TIMES{
+     override fun apply(t:Int, u: Int): Int = t *u
+   };
+
+   override fun applyAsInt(t: Int, u: Int) = apply(t, u)
+ }
+ fun main(){
+   val a = 13
+   val b = 31
+   for(f in IntArithmetics.values())
+   {
+     println("$f($a,$b) = ${f.apply(a, b)}")
+   }
+ }
+ //
+ EnumClass.valueOf(value: String): EnumClass
+                    EnumClass.values(): Array<EnumClass>
+                    //
+      enum class RGB{RED, GREEN,BLUE}
+
+      fun main(){
+        for(color in RGB.valus())println(color.toString())
+        println("The first color is: ${RGB.valueOf("RED")}")  
+      
+      }
+      //
+    enum class RGB{RED, GREEN,BLUE}
+
+    fun main(){
+      for(color in RGB.entries ) println(color.toString())
+    }
+    //
+    enum class RGB{RED, GREEN,BLUE}
+
+    fun main(){
+      println(RGB.RED.name)
+      println(RGB.RED.ordinal)
+    }
+    //
+    enum class RGB{RED, GREEN,BLUE}
+
+    inline fun <reified T : Enum<T>>printAllValues(){
+      println(enumValuees<T>().joinToString{it.name})
+    }
+    printAllValues<RGB>()
+      //
+                    enum class RGB{RED, GREEN,BLUE}
+
+@OptIn(ExperimentalStdlibApi::class)
+inline fun <reified T : Enum<T>> printAllValues(){
+  println(enumEntries<T>().joinToString{it.name})
+}
+printAllValues<RGB>()
+//
+value class Password(private val s:String)
+
+//
+@JvmInline
+                    value class Password(private val s:String)
+
+                    //
+                    val securePassword = Password("Don't try this in production")
+
+                    //
+                    @JvmInline
+                    value class Person(private val fullName:String){
+                      init{
+                        require(fullName.isNotEmpty()){
+                          "Full name shouldn't be empty"
+                        }
+                      }
+                      constructor(firstName: String, lastName: String): this("$firstName $lastName"){
+                        require(lastName.isNotBlack()){
+                          "Last name shouldn't be empty"
+                        }
+                      }
+                      val length: Int
+                      get() = fullName.length
+
+                      fun greet(){
+                        println("Hello, $fullName")
+                      }
+                    }
+                    fun main(){
+                      val name1 = Person("Kotlin", "Mascot")
+                      val name2 = Person("Kodee")
+                      name1.greet()
+                      println(name2.length)
+                    }
+                    //
+interface Printable{
+  fun prettyPrint(): String
+}
+
+@JvmInline
+value class Name(val s: String): Printable{
+  override fun prettyPrint(): String = "Let's $s!"
+}
+fun main(){
+  val name = Name("Kotlin")
+  println(name.prettyPrint())
+}
+//
+interface I
+
+                    @JvmInline
+                    value class Foo(val i: Int) : I
+
+                    fun asInline(f: Foo) {}
+                    fun <T asGeneric(x: T) {}
+
+                    fun asInterface(i: I){}
+                    fun asNullable(i: Foo?) {}
+
+                    fun <T> id(x: T) : T = x
+
+                    fun main(){
+                      val f = Foo(42)
+
+                      asInline(f)
+                      asGeneric(f)
+                      asInterface(f)
+                      asNullable(f)
+
+                      val c = id(f)
+                    }
+                    //
+                    @JvmInline
+                    value claa UserId<T>(val value: T)
+                    fun compute(s: UserId<String>){}
+
+                    @JvmInline
+                    value class UInt(val x: Int)
+
+                    fun compute(x: Int){}
+
+                    fun compute(x: UInt){}
+                    //
+                    @JvmInline
+                    value class UInt(val x: int)
+
+                    fun compute(x: Int){}
+
+                    @JvmName("computeUInt")
+                    fun compute(x: UInt) {}
+                    //
+                    typealias NameTypeAlias = String
+
+                    @JvmInline
+                    value class NameInlineClass(val s : String)
+
+                    fun acceptString(s: String){}
+                    fun acceptNameTypeAlias(n: NameTypeAlias){}
+                    fun acceptNameInlineClass(p: NameInlineClass){}
+
+                    fun main(){
+                      val nameAlias: NameTypeAlias = ""
+                      val nameInlineClass: NameInlineClass = NameInlineClass("")
+                      val string: String = ""
+
+                      acceptString(nameAlias)
+                      acceptString(nameInlineClass)
+
+                      acceptNameTypeAlias(string)
+                      acceptNameInlineClass(string)
+                    }
+                    //
+                    interface MyInterface{
+                      fun bar()
+                      fun foo() = "foo"
+                    }
+
+                    @JvmInline
+                    value class MyInterfaceWrapper(val myInterface: MyInterface):
+                    MyInterface by myInterface
+
+                    fun main(){
+                      val my = MyInterfaceWrapper(object : MyInterface){
+                      override fun bar(){
+                        
+                      }  
+                      })
+                      println(my.foo())
+                    }
+
+                    //
+                    fun main(){
+                      val helloworld = object{
+                        val hello = "Hello"
+                        var world = "World"
+
+                        override fun toString() = "$hello $world"
+                      }
+                      print(helloWorld)
+                    }
+                    //
+                    window.addMouseListener(object : MouseAdapter()){
+
+                      override fun mouseClicked(e: MouseEvent)
+
+                      override fun mouseEntered(e: MouseEvent)
+                    })
+  //
+  open class A(x: Int){
+    public open val y: Int = x
+    
+  }
+
+  interface B
+
+  val ab : A = object : A(1), B{
+    override val y = 15
+  }
+  //
+  class C{
+    private fun getObject() = object{
+      val x: String = "x"
+    }
+    fun printX(){
+      println(getObject().x)
+    }
+  }
+  //
+  interface A{
+  fun funFromA(){}  
+  }
+  interface B
+
+  class C{
+    fun getObject() = object{
+      val x: String = "x"
+    }
+    fun getObjectA() = object: A{
+      override fun funFromA() {}
+      val x: String = "x"
+    }
+
+    fun getObjectB(): B = object: A,B{
+      override fun funFromA(){}
+      val x : String = "x"
+    }
+  }
+  //
+  fun countClicks(window: JComponent){
+    var clickCount = 0
+    var enterCount = 0
+
+
+    window.addMouseListener(object : MouseAdapter(){
+      override fun mouseClicked (e: MouseEvent){
+        clickCount++
+      }
+    })
+  }
+  //
+  object DataProviderManager{
+    fun registerDataProvider(provider: DataProvider){
+      
+    }
+
+    val allDataProviders: Collection<DataProvider>
+    get() = 
+  }
+  //
+  DataProviderManager.registerDataProvider()
+
+  object DefaultListener : MouseAdapter(){}
+  override fun mouseClicked(e : MouseEvent){}
+
+  override fun mouseEntered (e: Mouse Event){}
+
+}
+//
+object MyObject
+fun main(){
+  println(MyObject)
+}
+//
+data object MyDateObject{
+  val x: Int =3
+}
+fun main(){
+  println(MyDataObject
+         )
+}
+//
+data object mySingleton
+fun main(){
+  val evilTwin = createInstanceViaReflection()
+
+  println(mySingleton)
+  println(evilTwin)
+
+  println(MySingleton == evilTwin)
+
+  println(MySingleton === evilTwin)
+}
+
+fun createInstanceViaReflection(): MySingleton{
+
+  return MySingleton.javaClass.declaredConstructors[0].apply {isAccessible = true}
+  as Constructor<MySingleton>.newInstance()
+  
+}
+//
+sealed interface ReadResult
+data class Number(val number: Int) : ReadResult
+data class Text(val number: Int) : ReadResult
+data object EndOfFile : ReadResult
+
+fun printReadResult(r: ReadResult){
+  when(r){
+    is Number - > println("Num($r.number}")
+    is Text -> println("Txt($r.text}")
+    is EndOfFile -> println("EOF")
+  
+  }
+}
+fun main(){
+  printReadResult(EndOfFile)
+  
+}
+//
+class MyClass{
+  companion object Factory{
+    fun create(): MyClass = MyClass()
+  }
+  
+}
+//
+val instance = MyClass.create()
+
+//
+class MyClass{
+  companion object{}
+  
+}
+val x = MyClass.Companion
+//
+class MyClass 1{
+  companion object Named{}
+}
+
+val x = MyClass1
+
+class MyClass2{
+  companion object{}
+}
+val y = MyClass2
+
+//
+interface Factory<T{
+  fun create(): T
+
+}
+
+class MyClass{
+  companion object : Factory<MyClass>{
+    override fun create(): MyClass = MyClass()
+  }
+}
+val f: Factory<MyClass>  = MyClass
+//
+interface Base{
+  fun print()
+
+  
+}
+
+class BaseImpl(val x: Int) : Base{
+  override fun print(){print(x)}
+}
+class Derived(b: Base) : Base by b
+
+fun main(){
+  val b =BaseImpl(10)
+  Derived(b).print()
+}
+//
+interface Base{
+  fun printMessage()
+  fun printMessageLine()
+}
+
+class BaseImple(val x: Int) : Base{
+  override fun printMessage(){print(x)}
+  override fun printMessageLine{println(x)}
+}
+
+class Derived(b: Base): Base by b{
+  override fun printMessage() { print("abc")}
+}
+
+fun main(){
+  val b = BaseImple(10)
+  Derived(b).printMessage()
+  Derived(b).printMessageLine()
+}
+/
+  interface Base{
+    val message : String
+    fun print()
+  }
+  class BaseImpl(val x: Int): Base{
+
+      override val message = "BaseImpl: x=$x"
+      override fun print() {println(message)}
+  
+  }
+
+  class Derived(b: Base) : Base by b{
+
+    override val message = "Message of Derived"
+  }
+
+  fun main(){
+    val b = BaseImpl(10)
+    val derived =Derived(b)
+    derived.print()
+    println(derived.message)
+    
+  }
+  //
+  class Example{
+    var p: String by Delegate()
+  }
+
+  //
+  class Delegate{
+    operator fun getValue(thisRef: Any?, property: KProperty<*>):String{
+      return "$thisRef, thank you for delegating '${property.name}'to me!"
+    }
+
+    operator fun setValue(thisRef: Any?, property: KProperty<*>,value:String){
+     println( "$value has been assigned to '${property.name}'in $thisRef.")
+    }
+    
+  }
+  //
+  val e = Example()
+  println(e.p)
+  /
+  e.p = "NEW"
+//
+val lazyValue: String by lazy{
+  println("computed")
+  "Hello"
+}
+fun main(){
+  println(lazyValue)
+  println(lazyValue)
+}
+//
+class User{
+  var name: String by Delegates.observable("<no name>")
+  {
+    prop,old, new ->
+    println("$old - > $new")
+  }}
+
+fun main(){
+  val.name = "first"
+  user.name = "first"
+  user.name = "second"
+}
+//
+ var topLevelInt :  Int = 0
+class ClassWithDelegate(val anotherClassInt: Int)
+
+class MyClass(var memberInt: Int, val anotherClassInstance: ClassWithDelegate){
+  var delegatedToMember: Int by this::memberInt
+  var delegatedToTopLevel: Int by ::topLevelInt
+
+  var delegatedToAnotherClass: Int by anotherClassInstance::anotherClassInt
+}
+var MyClass.extDelegated: Int by ::topLevelInt
+//
+class MyClass{
+  var newName : Int = 0
+
+  @Deprecated("Use 'newName' instead", ReplaceWith("newName"))
+  var oldName: Int by this::newName
+}
+fun main(){
+  val myClass = MyClass()
+
+  myClass.oldname =42
+  println(myClass.newName)
+  }
+//
+class User(var map: Map<String, Any?>){
+   val name: String by map
+  val age: Int by map
+}
+//
+val user = User(mapOf{
+  "name"to "John Doe",
+  "age" to 25
+})
+//
+class User(val map: Map<String, Any>){
+  val name: String by map
+  val age: Int by map
+  
+}
+fun main(){
+  val user = User(mapOf){
+    "name" to "John Doe,
+    "age" to 25
+    ))
+    println(user.name)
+    println(user.age)
+  
+}
+  //
+  fun example(computeFoo: () -> Foo){
+    val memoizedFoo by lazy(computeFoo)
+
+    if(someCondition && memoizedFoo.isValid()){
+      memoizedFoo.doSomething()
+    }
+  }
+  //
+  class Resource
+  class Owner{
+    val valResource: Resource by ResourceDelegate()
+  }
+
+  class ResourceDelegate{
+    operator fun getValue(thisRef: Owner, property: KProperty<*>): Resource{
+      return Resource()
+    }
+  }
+  //
+  class Resource
+  class Owner{
+    val valResource: Resource by ResourceDelegate()
+  }
+
+  class ResourceDelegate(private var resource: Resource = Resource()){
+    operator fun getValue(thisRef: Owner, property: KProperty<*>): Resource{
+      return resource()
+    }
+
+    operator fun setValue(thisRef: Owner, property: KProperty<*>, value: Any?){
+      if(value is Resource){
+        resource = value
+      }
+    }
+  }
+  //
+  fun resourceDelegate(resource: Resource = Resource()): ReadWriteProperty<Any?, Resource> = 
+  object : ReadWriteProperty<Any?, Resource>{
+    var curValue = resource
+    override fun getValue(thisRef: Any?, property: KProperty<*>): Resource = curValue{
+      curValue = value
+    }
+  }
+
+  val readOnlyResource: Resource by resourceDelegate()
+  val readWriteResource: Resource by resourceDelegate()
+  //
+class C{
+
+  var prop: Type by MyDelegate()
+}
+class C{
+  private val prop$delegate = MyDelegate()
+  var prop: Type
+  get() = prop$delegate.getValue(this, this::prop)
+  set(value: Type) = prop$delegate.setValue(this.this::prop, value)
+}
+//
+class C<Type>{
+  private var impl: Type =...
+  var prop: Type by :: impl
+  }
+//
+object NamedObject{
+  operator fun getValue(thisRef: Any?,property:KProperty<*>):String = ..
+  
+}
+val s : String by NamedObject
+
+  //
+  val impl : ReadOnlyProperty<Any?, String> = ..
+  class A{
+    val s: String by impl
+  }
+  //
+  class A{
+    operator fun getValue(thisRef: Any?, property: KProperty<*>)..
+    val s by this
+  }
+  //
+  class C<Type>{
+    private var impl: Type = ..
+    var prop: Type by :: impl
+    
+  }
+  //
+  class C<Type>{
+    private var impl: Type = ..
+
+
+    
+    var prop: Type
+    get() = impl
+    set(value){
+      impl = value
+    }
+
+    fun getProp$delegate(): Type = impl
+
+  }
+  //
+  class ResourceDelegate<T> : ReadOnlyProperty<MyUI, T>{
+    override fun getValue(thisRef: MyUI, property: KProperty<*>): T{}
+
+    
+  }
+
+  class ResourceLoader<T>(id: ResourceID<T>){
+    operator fun provideDelegare)(
+      thisRef: MyUI,
+      prop: KProperty<*>
+): ReadOnlyProperty<MyUI, T>{
+      checkProperty(thisRef, prop.name)
+
+    return ResourceDelegate()
+    }      
+    private fun checkProperty(thisRef: MyUI, name: String){}
+    }
+
+  class MyUI{
+    fun <T> bindResource(ResourceID.ResourceLoader<T>{}
+                        
+                        
+    val image by bindResource(Resource.image_id)
+    val text by bindResource(ResourceID.text_id)
+                         
+                         }
+  }
+  //
+  class MyUI{
+
+    val image by bindResource(ResourceID.image_id, "image")
+    val text by bindResource(ResourceId.text_id, "text")
+
+  }
+  fun<T> MyUI.bindResource{
+    id: ResourceID<T>,
+    propertyName: String
+    ):ReadOnlyProperty<MyUI, T>{
+      checkProperty(this, propertyName)
+    
+  }
+    //
+    class C{
+      var prop: Type by myDelegate()
+    }
+
+    class C{
+      private val prop$delegate = MyDelegate().provideDelegate(this, this::prop)
+      var prop: Type
+      get() = prop$delegate.getValue(this.this::prop)
+      set(value: Type) = prop$delegate.setValue(this.this::prop, value)
+    }
+    //
+    val provider = PropertyDelegateProvider{thisRed: Any? , property ->
+      ResourceProperty<Any?, Int>{-, property -> 42}
+    }
+    val delegate: Int by provider
+
+    //
+    typealias NodeSet = Set<NetWork.Node>
+
+    typealias FileTable<K> = MutableMap<K, MutableList<File>>
+    //
+    typealias Myhandler = (Int, String, Any) -> Unit
+
+    typealias Predicate<T> = (T) -> Boolean
+
+    //
+    class A{
+      inner class Inner
+    }
+    class B{
+      inner class Inner
+    }
+
+    typealias AInner = A.Inner
+    typealias BInner = B.Inner
+    //
+    typealias Predicate<T> = (T) -> Boolean
+
+    fun foo(p: Predicate<Int> - p (42)
+    fun main(){
+      val f: (Int) -> Boolean = {it > 0}
+      println(foo(f))
+
+      val p : Predicate<Int> = {it > 0}
+      println(listOf(1, -2).filter(p))
+    }
+    //
+    fun double(x:Int): Int{
+      return 2*x
+    }
+    //
+    val result = double(2)
+
+    //
+    Stream().read()
+
+    // 
+    fun powerOf(number: Int, exponent: Int): Int
+
+            //
+            fun powerOf(
+              number: Int
+              ,
+              exponent: Int,
+            )
+            /
+
+        fun read(
+          b: BtyeArray,
+          off: Int = 0,
+          len: Int = b.size,
+        )
+        //
+        open class A{
+
+          open fun foo(i: Int = 10)
+        }
+        class B: A(){
+          override fun foo(i: Int)
+        }
+        //
+        fun foo(
+          bar: Int = 0
+          baz: Int,
+        )
+        foo(baz = 1)
+        //
+        fun foo(
+          bar:Int = 0,
+          baz: Int =1,
+          qux: () -> Unit,
+        )
+
+        foo(1){println("hello")}
+        foo(qux = {println("hello")})
+        foo{println("hello"))}
+        //
+        fun reformat{
+          str:String,
+          normalizeCase: Boolean = true
+          upperCaseFirstLetter: Boolean = true,
+          divideByCamelHumps: Boolean = false,
+          wordSeparator: Char = '',
+          
+        }
+        //
+        reformat(
+          "String!",
+          false,
+          upperCaseFirstLetter = false,
+          divideByCamelHumps = true,
+          '_'
+        )
+        //
+        reformat("This is a long String!")
+
+            reformat("This is a short String!", upperCaseFirstLetter= false ,
+                    wordSeparator = '-')
+            //
+            fun foo(vararg string: String)
+            foo(strings = *arrayOf("a", "b","c"))
+
+            //
+            fun printHello(name: String?): Unit{
+              if(name != null)
+              println("Hello $name")
+            else
+              println("Hi there!")
+            }
+            //
+            fun printHello(name: String?){}
+
+            fun double(x:int): Int = x * 2
+
+            fun double (x: Int) = x * 2
+
+            //
+            fun <T> asList<vararg ts: T>: List<T>{
+              val resout = ArrayList<T>()
+              for( t in ts)
+              result.add(t)
+              return result
+            }
+//
+            val list = asList(1,2,3)
+
+            val a = arrayOf(1,2,3)
+
+            val list = asList(-1,0,*a, 4)
+
+
+            //
+            val a = intArrayOf(1,2,3)
+            val list = asList(-1, 0 , *a.toTypedArray(), 4)
+            //
+            infix fun Int.shl(x: int){}
+
+            1 shl 2
+
+            1.shl(2)
+            //
+
+            class MyStringCollection{
+              infix fun add(s: String)
+
+              fun build(){
+                this add "abc"
+                add("abc")
+              }
+              
+            }
+            //
+            fun dsfs(graph: Graph){
+              fun dfs(current: Vertex, visited:MutableSet<Vertex>){
+                if(!visited.add(current))return
+                for(v in current.neighbors)
+                dfs(v, visited)
+              }
+
+              dfs(graph.vertices[0], HashSet())
+            }
+
+            //
+            fun dfs(graph:Graph){
+              val visited = HashSet<Vertex>()
+              fun dfs(current: Vertex){
+                
+              if(!visited.add(current))return 
+                for(v in current.neighbors)
+                dfs(v)
+              }
+              dfs(graph.vertices[0])
+            }
+            //
+            class Sample{
+              fun foo(){print("Foo")}
+            
+            
+            }
+            //
+            Sample().foo()
+
+            //
+            fun <T>singletonList(item: T): List<T>
+
+        fun <T> singletonList(item: T): List<T>
+
+        //
+        val eps = 1R-10
+
+            tailrec fun findFixPoint(x:Double = 1.0): Double =
+        if(Math.abs(x - Math.cos(x)) < eps) x else findFixPoint(Math.cos(x))
+
+        //
+        val eps = 1E-10
+
+            private fun findFixPoint(): Double{
+              var x =1.0
+              while(true){
+                val y = Math.cos(x)
+                if(Math.abs(x - y) < eps)return x
+                x = Math.cos(x)
+              }
+            }
+            //
+            fun <T, R> Collection<T>.fold(
+
+              initial: R,
+              combine: (acc: R, nextElement: T) -> R
+            ): R{
+              var accumulator: R = initial
+              for(element: T in this){
+                accumulator = combine(accumulator, element)
+              }
+              return accumulator
+            }
+            //
+            fun main(){
+              val items = listOf(1,2,3,4,5)
+
+              items.fold(0, {
+                acc: Int, i: Int -> 
+
+                print("acc" = $acc, i = $i, ")
+                      val result = acc + i
+                      println("result = $result")
+
+                      result
+              })
+
+                val joinedToString = items.fold("Elements: ", {acc, i -> acc + " " + i})
+
+                val product = items.fold(1, Int::times)
+
+                println("joinedToString = $joinedToString")
+              println("product = $product")
+              }
+              //
+              typealias ClickHandler = (Button, ClickEvent) - > Unit
+                         //
+                         class IntTransformer: (Int) -> Int{
+                           override operator fun invoke(x: Int): Int = TODO()
+                         }
+
+                         val intFunction: (Int) - > Int = IntTransformer()
+
+                         val a = {i: Int-> i+1}
+                         //
+fun main()}{
+  val repeatFun: String.(Int)-> String = {times -> this.repear(times)}
+  val twoParameters : (String, Int) -> String = repeatFun
+
+  fun runTransformation(f: String, Int) -> String): String{
+    return f("hello", 3)
+  }
+  val result = runTransformation(repeatFun)
+  println("result = $result")
+}                         
+//
+fun main(){
+  val stringPlus : (String, String)-> String = String::plus
+  val intPlus: Int.(Int) -> Int = Int::plus
+
+  println(stringPlus.invoke("<-", " ->"))
+  println(stringPlus("Hello, ", "world!"))
+
+  println(intPlus.invoke(1,1))
+  println(intPlus(1, 2))
+println(2.intPlus(3))
+}
+//
+max(strings,{a,b -> a.length < b.length})
+//
+fun compare(a: String, b: String): Boolean= a.length< b.length
+                         //
+val sum: (Int, Int) -> Int = {x: Int, y:Int -> x+y}
+
+
+val sum = { x: Int, y:Int -> x+y}
+
+val produt = item.fold(1){acc,e->acc*e}
+
+run {println("...")}
+
+ints.filter(it > 0)
+
+//
+ints.filter{
+  val shoulderFilter =it >0
+  shouldFilter
+}
+
+ints.filter{
+  val shouldFiler = it > 0
+  return @filter shouldFilter
+}
+
+//
+string.filter{it.length == 5}.sortedBy{it}.map{it.uppercase()}
+//
+map.forEach{(_, value) -> println("$value!")}
+//
+fun (x: Int, y:Int): Int = x+y
+
+                         //
+                         fun (x: Int, y:Int):Int{
+                           return x+y
+                         }
+
+                         //
+                         ints.filter(fun(item) = item >0
+                                    
+                                    )
+
+                         //
+                         var sum = 0
+                         ints.filter{it > 0}.forEach}{
+                           sum += it
+                         
+                         }
+                         print(sum)
+                         //
+   val sum : Int.(Int) -> Int = {other-> plus(other)}                      
+   val sum = fun Int.(other: Int): Int = this + other
+
+                         class HTML{
+                           fun body(){}
+                         }
+
+                         fun html(init: HTML.() -> Unit): HTML
+                         val html = HTML()
+                         html.init()
+                         return html
+                         }
+                         html{
+                           body()
+                         }
+                         //
+                         lock(l) {foo()}
+
+                         //
+                         l.lock()
+                         try{
+                           foo()
+                         }finally{
+                           l.unlock()
+                         }
+
+                         //
+inline fun <T> lock(lock: Lock, body: ()-> T): T{}                         
+
+inlinefun foo(inlined: () -> Unit, noinline notInlined: () -> Unit)
+//
+fun ordinaryFunction(block: () -> Unit){
+  println("hi!")
+}
+
+fun foo(){
+ordinaryFunction{
+  return
+}  
+}
+
+fun main(){
+  foo()
+}
+
+//
+inline fun inlined(block: () -> Unit){
+  println("hi!")
+}
+fun foo(){
+  inlined{
+    return
+  }  
+}
+
+fun main(){
+  foo()
+}
+
+//
+fun hasZeros(ints: List<Int>): Boolean{
+  ints.forEach{
+    if(it == 0)return true
+  }
+  return false
+}
+//
+inline fun f(crossinline body: ()-> Unit){
+  val f = object: Runnable{
+    override fun run() = body()
+  }
+}
+//
+
+fun <T> TreeNode.findParentOfType(clazz: Class<T>): T?{
+  var p = parent
+  while(p != null && !clazz.isInstance(p))
+  {
+
+    p= p.parent
+  }
+  @Suppress("UNCHECKED_CAST")
+retrn p as t?
+}
+//
+treeNode.findParentOfType(MyTreeNode::class.java)
+
+treeNode.findParentOfType<MyTreeNode>()
+
+//
+inline fun <reified T> TreeNode.findParentOfType(): T?{
+  var p = parent
+  while(p != null && p !is T){
+    p = p,parent
+  } 
+
+  return p as T?
+}
+
+//
+inline fun <reified T>membersOf() = T::class.members
+
+                         fun main(s: Array<String>){
+                           println(memberOf<StringBuilder>().joinToString("\n"))
+                         }
+
+                         //
+  val foo: Foo
+                         inline get() == Foo()
+
+                         var bar: Bar
+                         get() = ..
+                         inline set(v) {}
+                         //
+                         inline var bar: Bar
+                         get() = ..
+                         set(v) {}
+                         //
+                         interface IndexedContainer{
+                           operator fun get(index: Int)
+                         }
+
+                         //
+                         class OrdersList: IndexedContainer{
+                           override fun get(index: Int)
+                         }
+                         //
+data class Point(val x: Int, val y: Int)
+
+operator fun Point.unaryMinus() = Point(-x, -y)
+
+val point = Point(10, 20)
+
+fun main(){
+  println(-point
+         )
+}
+
+//
+data class Counter (val dayIndex: Int){
+  operator fun plus(increment: Int): Counter{
+    return Counter(dayIndex + Increment)
+  }
+}
+//
+fun result()=
+                  html{
+                    head{
+                      title{+"XML encoding with Kotlin"}
+                    }
+                    body{
+                      h1{+"XML encoding with Kotlin"}
+                      p{+"this format can be used as an alternative markup to XML"}
+                    
+                    a(href = "https://kotlinlang.org"){+"Kotlin"}
+                    
+                    p{
+                        +"This is some"
+                         b{+"mixed"}
+                         +"text. For more see the"
+                      a(href \ "http://kotlinlang.org"){+"kotlin"}
+                      +"project"
+                    
+                    }
+                    p{+"some text"}
+
+                    p{
+                      for (arg in args)
+                      +arg
+                    }
+                    }
+                  }
+                  //
+  fun html(init: HTML.() -> Unit): HTML{
+    val html = HTML()
+    html.init()
+    return html
+  }            
+
+  //
+  html
+                         {
+                           this.head{}
+                           this.body{}
+                         }
+                         //
+ fun head(init: Head.() -> Unit): Head{
+   val head = Head()
+   head.init()
+   children.add(head)
+   return head
+ }            
+
+ fun body(init: Body.() -> Unit): Body{
+   val body = Body()
+   body.init()
+   children.add(body)
+   return body
+ }
+ //
+ protected fun <T : Element> initTag(tag: T, init: T.()-> Unit): T{
+   tag.init()
+  children.add(tag)
+  return tag
+ 
+ }
+ //
+ fun head(init: Head.() -> Unit) = initTag(Head(), init)
+
+ fun body(init: Body.() -> Unit) = initTag(Body(), init)
+
+//
+html{
+  head{
+    title("+XML encoding with Kotlin")
+  }
+}
+//
+operator fun String.unaryPlus(){
+  children.add(TextElement(this))
+}
+//
+@DslMarker
+annotation class HtmlTagMarker
+
+                         //
+                         @HtmlTagMarker
+                         abstract class Tag(val name: String){}
+
+                         //
+                         html{
+                           head{
+                             this@html.head{}
+                           }
+                         }
+                         //
+
+                         interface Element{
+                           fun render(builder: StringBuilder, indent: String)
+                         }
+
+                         class TextElement(val text: String): Element{
+                           override fun render(builder: StringBuilder, indent: String){
+                             builder.append("$indent$text\n")
+                           }
+                         }
+
+                         @DslMarker
+                         annotation class HtmlTagMarker
+
+
+                         @HtmlMarker
+     abstract class Tag (val name: String):Element{
+       val children = arrayListOf<Element>()
+       val attributes = hashMapOf<String, String>)()
+
+
+       protected fun <T: Element> initTag(tag: T, init: T.() -> Unit):
+       T{
+         tag.init()
+         children.add(tag)
+         return tag
+       }
+
+       override fun render(builder: StringBuilder,indent: String){
+         builder.append("$indent<$name${renderAttributes()}>\n")
+       for(c in children){
+         c.render(builder, indent = " ")
+       }
+       builder.append("$indent</$name>\n")
+       }
+       private fun renderAttributes():String{
+       val   builder = StringBuilder()
+       for((attr, value) in attributes){
+         builder.append(" $attr = \"$value\"")
+       }
+       return builder.toString()
+       }
+
+       override fun toString(): String{
+         val builder = StringBuilder()
+         render(builder, ""
+               return builder.toString()
+               )
+       }
+     }
+     abstract class TagWithText(name: String) : Tag(name)[
+       operator fun String.unaryPlus(){
+         children.add(TextElement(this))
+       }
+       }
+       class HTML : TagWithText("html"){
+         fun head(init: Head.() -> Unit) = initTag(Head(), init)
+         fun body(init: Body.() -> Unit) = initTag(Body(), init)
+         }
+
+       class Head: TagWithText("head"){
+         fun title(init: Title.() -> Unit) = initTag(Title(), init)
+       }
+
+       class Title : TagWithText("title")
+
+
+       abstract class BodyTag(name: String): TagWithText(name){
+         fun b(init: B.() -> Unit) = initTag(B(), init)
+         fun p(init: P.() -> Unit) = initTag(P(), init)
+         fun h1(init: H1.() -> Unit) = initTag(H1(), init)
+         fun a(href: String, init: A.() -> Unit){
+           val a = initTag(A(), init)
+           a.href =href
+         }
+       }
+
+       class Body : BodyTag("body")
+       class B : BodyTag("b")
+       class P : BOdyTag("p")
+       class H1 : BodyTag("h1")
+
+
+       class A : BodyTag("a")[
+         var href: String
+         get() = attributes["href"]!!
+           set(value)[
+             attributes["href"]= value
+   
+       }
+     }
+
+     fun html (init: HTML.() -> Unit): HTML{
+       val html = HTML()
+       html.init()
+       return html
+     }
+     //
+     fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, Int>?){ 
+     val myMap = buildMap{
+       putAll(baseMap)
+       if(additionalEntry!=null){
+         put(additionalEntry.first, additionalEntry.seconde)
+       }
+     }
+     }
+     //
+     class ItemHolder<T{
+       private val items = mutableListOf<T>()
+
+       fun addItem(x: T){
+         items.add(x)
+       }
+       fun getLastItem(): T? = items.lastOrNull()
+     }
+     fun <T>ItemHolder<T>.addAllItems(xs: List<T>{
+       xs.forEach{addItem9it}
+     }
+                                     fun <T>itemHolderBuilder(builder:ItemHolder<T>.()-> Unit): ItemHolder<T>=
+         ItemHolder<T>().apply(builder))
+
+     //
+     456/1299
